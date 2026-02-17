@@ -10,6 +10,9 @@ description-file = "README.md"
 home-page = "https://github.com/IslasGECI/eradication_stan"
 module = "eradication_stan"
 requires = [
+    "fastapi",
+    "httpx",
+    "python-multipart",
 ]
 requires-python=">=3.9"
 
