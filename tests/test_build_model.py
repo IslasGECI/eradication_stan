@@ -1,4 +1,4 @@
-from build_model import build_model
+from eradication_stan.build_model import build_model
 
 import geci_test_tools as gtt
 
@@ -11,4 +11,4 @@ def test_build_model():
 
     build_model(stan_file)
 
-    gtt.assert_exists(obtained_file)
+    gtt.assert_exist(obtained_file)
