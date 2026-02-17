@@ -13,8 +13,8 @@ all: check coverage mutants
 		setup \
 		tests
 
-module = dummy_transformations
-codecov_token = 6c56bccb-1758-4ed9-8161-97c845591c26
+module = eradication_stan
+codecov_token = 3d97a3ee-8113-4776-aeee-79db90e87f97
 
 define lint
 	pylint \
