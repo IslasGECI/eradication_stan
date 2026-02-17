@@ -8,21 +8,6 @@ parameter](https://github.com/IslasGECI/eradication_stan/actions/workflows/actio
 ![commits](https://img.shields.io/github/commit-activity/y/IslasGECI/eradication_stan)
 ![PyPI - Version](https://img.shields.io/pypi/v/eradication_stan)
 
-Para usar este repo como plantilla debemos hacer lo siguiente:
+Python wrapper used for bayesian inference for eradication proyects.
 
-1. Presiona el botón verde que dice _Use this template_
-1. Selecciona como dueño a la organización IslasGECI
-1. Agrega el nombre del nuevo módulo de python
-1. Presiona el botón _Create repository from template_
-1. Reemplaza `eradication_stan` por el nombre del nuevo módulo en:
-    - `Makefile`
-    - `pyproject.toml`
-    - `tests\test_transformations.py`
-1. Renombra el archivo `eradication_stan\transformations.py` al nombre del primer archivo del
-   nuevo módulo
-1. Cambia la descripción del archivo `eradication_stan\__init__.py`
-1. Renombra el directorio `eradication_stan` al nombre del nuevo módulo
-1. Cambia el `codecov_token` del archivo `Makefile`
-
-Los archivos del nuevo módulo los agregarás en la carpeta que antes se llamaba
-`eradication_stan` y las pruebas en la carpeta `tests`.
+This is a wrapper for [Stan software](https://mc-stan.org/).
