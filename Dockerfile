@@ -9,3 +9,15 @@ RUN pip install --upgrade pip && pip install \
     pylint \
     pytest \
     pytest-cov
+
+RUN apt-get update && apt-get install --yes \
+    build-essential \
+    git \
+    curl
+
+# Install CmdStan
+RUN git clone --recursive https://github.com/stan-dev/cmdstan.git /opt/cmdstan && \
+    cd /opt/cmdstan && \
+    make build
+
+RUN make install
