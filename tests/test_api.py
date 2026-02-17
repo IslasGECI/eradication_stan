@@ -1,6 +1,8 @@
 from eradication_stan.api import api
-from fastapi.testclient import TestClient
 from geci_test_tools import assert_exist, if_exist_remove
+
+import io
+from fastapi.testclient import TestClient
 
 client = TestClient(api)
 
@@ -10,10 +12,24 @@ def test_api_write_eradication_bayesian_model_results():
     initial_parameters_path = "tests/data/init.json"
     output_path = "tests/eradication_results.csv"
 
+    with open(data_path, "rb") as f:
+        file_like_data = io.BytesIO(f.read())
+
+    with open(initial_parameters_path, "rb") as f:
+        file_like_init = io.BytesIO(f.read())
+
     if_exist_remove(output_path)
-    request = f"/write_eradication_bayesian_model_results/?data_path={data_path}&initial_parameters={initial_parameters_path}&output_path={output_path}"
+    request = {
+        "url": "/write_eradication_bayesian_model_results",
+        "files": {
+            "data_path": (f"{data_path}", file_like_data, "application/json"),
+            "initial_parameters_path": (
+                f"{initial_parameters_path}",
+                file_like_init,
+                "application/json",
+            ),
+        },
+    }
 
-    response = client.get(request)
+    response = client.post(**request)
     assert response.status_code == 200
-
-    assert_exist(output_path)
