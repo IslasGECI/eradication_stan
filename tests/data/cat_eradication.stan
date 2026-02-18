@@ -25,8 +25,8 @@ transformed parameters {
 model {
   // Priors
   N0 ~ lognormal(log(1e4), 1); // Tamaño inicial de la población
-  r ~ normal(0.08, 0.05); // Tasa de crecimiento natural
-  q ~ lognormal(log(1e-5),1); // Capturabilidad
+  r ~ normal(0.08, 0.06);      // Tasa de crecimiento natural
+  q ~ lognormal(log(1e-5),1);  // Capturabilidad
 
   for (t in 1:T) {
     if (N[t] < capturas[t])
