@@ -12,13 +12,15 @@ module = "eradication_stan"
 requires = [
     "fastapi",
     "httpx",
+    "pandas",
     "python-multipart",
 ]
 requires-python=">=3.9"
 
 [tool.mutmut]
 paths_to_mutate = [ "eradication_stan/" ]
-tests_dir = [ "tests/" ]
+pytest_add_cli_args_test_selection= [ "tests/" ]
+
 
 [[tool.mypy.overrides]]
 module = ["geci_test_tools.*"]
