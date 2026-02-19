@@ -39,5 +39,5 @@ def test_api_write_eradication_bayesian_model_results():
     assert "r" in content[0]
     assert "N0" in content[0]
     assert "q" in content[0]
-    assert gtt.assert_not_exist(remote_data_path)
-    assert gtt.assert_not_exist(remote_initial_parameters_path)
+    gtt.assert_not_exist(remote_data_path)
+    gtt.assert_not_exist(remote_initial_parameters_path)
