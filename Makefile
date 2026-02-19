@@ -66,7 +66,7 @@ linter:
 	$(call lint, ${module})
 	$(call lint, tests)
 
-mutants: setup
+mutants: setup install_dev
 	mutmut run
 
 setup: clean install
