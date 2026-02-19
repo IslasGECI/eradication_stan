@@ -30,3 +30,5 @@ def test_api_write_eradication_bayesian_model_results():
 
     response = client.post(**request)
     assert response.status_code == 200
+    content = response.json()
+    assert "r" in content[0]
