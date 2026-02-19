@@ -3,6 +3,7 @@ from eradication_stan.run_predictions import run_predictions
 
 from fastapi import FastAPI, UploadFile, File
 import pandas as pd
+import shutil
 
 api = FastAPI()
 
@@ -13,6 +14,10 @@ async def api_write_eradication_bayesian_model_results(
 ):
     stan_file = "/workdir/cat_eradication.stan"
     build_model(stan_file)
+
+    with open(data_path.filename, "wb") as buffer:
+        shutil.copyfileobj(data_path.file, buffer)
+
     model_path = "cat_eradication"
     output_path = "api_predictions.csv"
     run_predictions(
