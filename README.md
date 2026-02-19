@@ -10,4 +10,4 @@ parameter](https://github.com/IslasGECI/eradication_stan/actions/workflows/actio
 
 Python wrapper used for bayesian inference for eradication proyects.
 
-This is a wrapper for [Stan software](https://mc-stan.org/).
+This is a wrapper for [Stan software](https://mc-stan.org/) used for cat eradication project.
