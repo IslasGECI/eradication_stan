@@ -11,9 +11,9 @@ api = FastAPI()
 async def api_write_eradication_bayesian_model_results(
     data_path: UploadFile = File(...), initial_parameters_path: UploadFile = File(...)
 ):
-    stan_file = "/workdir/tests/data/cat_eradication.stan"
+    stan_file = "/workdir/cat_eradication.stan"
     build_model(stan_file)
-    model_path = "tests/data/cat_eradication"
+    model_path = "cat_eradication"
     output_path = "api_predictions.csv"
     run_predictions(
         model_path=model_path,
