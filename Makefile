@@ -41,7 +41,7 @@ clean:
 	rm --force --recursive mutants
 	rm --force coverage.xml
 
-coverage: setup
+coverage: setup install_dev
 	pytest --cov=${module} --cov-report=xml --verbose && \
 	coverage report --show-missing
 
