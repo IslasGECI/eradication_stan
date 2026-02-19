@@ -3,6 +3,8 @@ from eradication_stan.api import api
 import io
 from fastapi.testclient import TestClient
 
+import geci_test_tools as gtt
+
 client = TestClient(api)
 
 
@@ -24,7 +26,7 @@ def test_api_write_eradication_bayesian_model_results():
         "files": {
             "data_path": (remote_data_path, file_like_data, "application/json"),
             "initial_parameters_path": (
-                f"{remote_initial_parameters_path}",
+                remote_initial_parameters_path,
                 file_like_init,
                 "application/json",
             ),
@@ -37,3 +39,5 @@ def test_api_write_eradication_bayesian_model_results():
     assert "r" in content[0]
     assert "N0" in content[0]
     assert "q" in content[0]
+    assert gtt.assert_not_exist(remote_data_path)
+    assert gtt.assert_not_exist(remote_initial_parameters_path)
