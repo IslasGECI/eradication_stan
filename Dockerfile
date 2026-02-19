@@ -4,12 +4,13 @@ COPY . .
 RUN pip install --upgrade pip && pip install \
     black \
     flake8 \
+    geci-test-tools \
     mutmut \
     mypy \
-    geci-test-tools \
     pylint \
     pytest \
-    pytest-cov
+    pytest-cov \
+    uvicorn
 
 RUN apt-get update && apt-get install --yes \
     build-essential \
