@@ -29,8 +29,8 @@ async def api_write_eradication_bayesian_model_results(
         output_path=output_path,
     )
 
-    Path(data_filename).unlink(missing_ok=True)
-    Path(initial_parameters_filename).unlink(missing_ok=True)
+    Path(str(data_filename)).unlink(missing_ok=True)
+    Path(str(initial_parameters_filename)).unlink(missing_ok=True)
 
     predictions = pd.read_csv(output_path, comment="#")
     return predictions.to_dict(orient="records")
