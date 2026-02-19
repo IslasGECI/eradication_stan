@@ -25,12 +25,11 @@ define lint
         ${1}
 endef
 
-check:
+check: install_dev
 	black --check --line-length 100 ${module}
 	black --check --line-length 100 tests
 	flake8 --max-line-length 100 ${module}
 	flake8 --max-line-length 100 tests
-	mypy --install-types --non-interactive
 	mypy ${module}
 	mypy tests
 
@@ -56,6 +55,9 @@ init_git:
 	git config --global --add safe.directory /workdir
 	git config --global user.name "Ciencia de Datos • GECI"
 	git config --global user.email "ciencia.datos@islas.org.mx"
+
+install_dev:
+	pip install --editable ".[dev]"
 
 install:
 	pip install --editable .

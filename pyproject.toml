@@ -25,3 +25,9 @@ pytest_add_cli_args_test_selection= [ "tests/" ]
 [[tool.mypy.overrides]]
 module = ["geci_test_tools.*"]
 follow_untyped_imports = true
+
+[tool.flit.metadata.requires-extra]
+dev = [
+    "pandas-stubs",
+    "geci-test-tools",
+]
