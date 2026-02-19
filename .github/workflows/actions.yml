@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - develop
+
+permissions:
+  id-token: write
+  contents: read
 jobs:
   build-image:
     name: Build Docker image 🐋
@@ -95,8 +99,5 @@ jobs:
         .
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
-      permissions:
-        id-token: write
-        contents: read
       with:
         skip-existing: true
