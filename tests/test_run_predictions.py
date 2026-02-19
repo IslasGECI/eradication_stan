@@ -14,3 +14,4 @@ def test_run_predictions():
         output_path=output_path,
     )
     gtt.assert_exist(output_path)
+    gtt.if_exist_remove(output_path)
