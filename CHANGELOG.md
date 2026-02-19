@@ -7,20 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.4.1] - 2024-04-31
-
 ### Added
 
 ### Fixed
 
 ### Changed
-- Fix repo path
-- Update actions
 
 ### Removed
 
-## [0.4.0] - 2023-08-31
+## [0.2.0] - 2026-02-19
+### Added
+- First working version of `write_eradication_bayesian_model_results`
+
+## [0.1.0] - 2026-02-18
+### Added
+- First dummy entrypoint `write_eradication_bayesian_model_results`
 
 
-[unreleased]: https://github.com/IslasGECI/dummy_transformations/compare/v1.1.1...HEAD
-[0.0.1]: https://github.com/IslasGECI/dummy_transformations/releases/tag/v0.0.1
+
+[unreleased]: https://github.com/IslasGECI/dummy_transformations/compare/v0.2.0...HEAD
+[0.1.0]: https://github.com/IslasGECI/dummy_transformations/releases/tag/v0.1.0
