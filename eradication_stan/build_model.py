@@ -9,5 +9,5 @@ def build_model(stan_file):
             cwd="/opt/cmdstan",
         )
         return result.returncode
-    except:
+    except result.CalledProcessError:
         return "Not compiled"

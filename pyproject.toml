@@ -19,3 +19,7 @@ requires-python=">=3.9"
 [tool.mutmut]
 paths_to_mutate = [ "eradication_stan/" ]
 tests_dir = [ "tests/" ]
+
+[[tool.mypy.overrides]]
+module = ["geci_test_tools.*"]
+follow_untyped_imports = true
