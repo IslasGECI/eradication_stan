@@ -15,6 +15,7 @@ async def api_write_eradication_bayesian_model_results(
     build_model(stan_file)
 
     await write_internal_file(data_path)
+    await write_internal_file(initial_parameters_path)
 
     model_path = "cat_eradication"
     output_path = "api_predictions.csv"

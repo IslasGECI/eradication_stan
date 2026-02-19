@@ -15,13 +15,16 @@ def test_api_write_eradication_bayesian_model_results():
 
     with open(initial_parameters_path, "rb") as f:
         file_like_init = io.BytesIO(f.read())
+
     remote_data_path = "data.json"
+    remote_initial_parameters_path = "init.json"
+
     request = {
         "url": "/write_eradication_bayesian_model_results",
         "files": {
             "data_path": (remote_data_path, file_like_data, "application/json"),
             "initial_parameters_path": (
-                f"{initial_parameters_path}",
+                f"{remote_initial_parameters_path}",
                 file_like_init,
                 "application/json",
             ),
