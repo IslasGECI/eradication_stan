@@ -4,7 +4,7 @@ import geci_test_tools as gtt
 
 
 def test_build_model():
-    obtained_file = "tests/data/cat_eradication"
+    obtained_file = "/workdir/tests/data/cat_eradication"
     stan_file = f"{obtained_file}.stan"
 
     gtt.if_exist_remove(obtained_file)
