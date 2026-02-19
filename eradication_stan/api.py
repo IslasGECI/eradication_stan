@@ -15,8 +15,9 @@ async def api_write_eradication_bayesian_model_results(
     stan_file = "/workdir/cat_eradication.stan"
     build_model(stan_file)
 
-    with open(data_path.filename, "wb") as buffer:
-        shutil.copyfileobj(data_path.file, buffer)
+    content = await data_path.read()
+    with open(data_path.filename, "wb") as f:
+        f.write(content)
 
     model_path = "cat_eradication"
     output_path = "api_predictions.csv"
