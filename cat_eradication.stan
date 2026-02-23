@@ -37,9 +37,19 @@ model {
   capturas ~ poisson(lambda);
 }
 generated quantities {
-  real prob_extinction;
   int is_extinct;
+  real E_mean;
+  real E_critical;
+  vector[T] is_progress;
 
   is_extinct = N[T] < 1;
-  prob_extinction = is_extinct;
+
+  E_mean = mean(esfuerzo);
+
+  E_critical = r / q;
+
+  for (t in 1 : T) {
+    is_progress[t] = esfuerzo[t] > E_critical;
+  }
+
 }
