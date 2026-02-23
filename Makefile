@@ -40,6 +40,7 @@ clean:
 	rm --force --recursive tests/__pycache__
 	rm --force --recursive mutants
 	rm --force coverage.xml
+	rm --force cat_eradication
 
 coverage: setup install_dev
 	pytest --cov=${module} --cov-report=xml --verbose && \
@@ -69,7 +70,7 @@ linter:
 mutants: setup install_dev
 	mutmut run
 
-setup: clean install
+setup: clean install_dev
 
 tests:
 	pytest --verbose tests
