@@ -14,7 +14,5 @@ def test_run_predictions():
         initial_parameters="tests/data/init.json",
         output_path=output_path,
     )
-    gtt.assert_exist(output_path)
-    gtt.if_exist_remove(output_path)
     assert isinstance(obtained, pd.DataFrame)
     gtt.assert_not_exist(output_path)

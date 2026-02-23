@@ -1,3 +1,5 @@
+import pandas as pd
+from pathlib import Path
 import subprocess
 
 
@@ -13,4 +15,6 @@ def run_predictions(model_path, data_path, initial_parameters, output_path):
         f"file={output_path}",
     ]
     result = subprocess.run(command)
-    return result.returncode
+    predictions = pd.read_csv(output_path, comment="#")
+    Path(str(output_path)).unlink(missing_ok=True)
+    return predictions

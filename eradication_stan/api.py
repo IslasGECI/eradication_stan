@@ -22,7 +22,7 @@ async def api_write_eradication_bayesian_model_results(
     initial_parameters_filename = initial_parameters_path.filename
     model_path = "cat_eradication"
     output_path = "api_predictions.csv"
-    run_predictions(
+    predictions = run_predictions(
         model_path=model_path,
         data_path=data_filename,
         initial_parameters=initial_parameters_filename,
@@ -32,7 +32,6 @@ async def api_write_eradication_bayesian_model_results(
     Path(str(data_filename)).unlink(missing_ok=True)
     Path(str(initial_parameters_filename)).unlink(missing_ok=True)
 
-    predictions = pd.read_csv(output_path, comment="#")
     return predictions.to_dict(orient="records")
 
 
