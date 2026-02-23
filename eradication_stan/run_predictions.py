@@ -14,7 +14,7 @@ def run_predictions(model_path, data_path, initial_parameters, output_path):
         "output",
         f"file={output_path}",
     ]
-    result = subprocess.run(command)
+    subprocess.run(command)
     predictions = pd.read_csv(output_path, comment="#")
     Path(str(output_path)).unlink(missing_ok=True)
     return predictions

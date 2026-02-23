@@ -2,7 +2,6 @@ from eradication_stan.build_model import build_model
 from eradication_stan.run_predictions import run_predictions
 
 from fastapi import FastAPI, UploadFile, File
-import pandas as pd
 from pathlib import Path
 
 api = FastAPI()
