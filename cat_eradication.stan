@@ -40,7 +40,7 @@ generated quantities {
   real E_critical;
   array[T] int is_progress;
   array[T] int is_progress_from_births;
-  array[T] int n_birth;
+  vector[T] n_birth;
 
   is_extinct = N[T] < 1;
 
