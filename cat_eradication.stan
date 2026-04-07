@@ -38,9 +38,9 @@ model {
 generated quantities {
   int is_extinct;
   real E_critical;
-  vector[T] int is_progress;
-  vector[T] int is_progress_from_births;
-  vector[T] int n_birth;
+  array[T] int is_progress;
+  array[T] int is_progress_from_births;
+  array[T] int n_birth;
 
   is_extinct = N[T] < 1;
 
