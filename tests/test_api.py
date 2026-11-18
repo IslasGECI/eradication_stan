@@ -41,3 +41,34 @@ def test_api_write_eradication_bayesian_model_results():
     assert "q" in content[0]
     gtt.assert_not_exist(remote_data_path)
     gtt.assert_not_exist(remote_initial_parameters_path)
+
+
+def test_api_compute_eradication_bayesian_model_results():
+    real_data_path = "tests/data/cameras_and_traps_effort_and_captures.json"
+    initial_parameters_path = "tests/data/init_with_cameras.json"
+
+    with open(real_data_path, "rb") as f:
+        file_like_data = io.BytesIO(f.read())
+
+    with open(initial_parameters_path, "rb") as f:
+        file_like_init = io.BytesIO(f.read())
+
+    remote_data_path = "data.json"
+    remote_initial_parameters_path = "init.json"
+
+    request = {
+        "url": "/compute_eradication_bayesian_model_results",
+        "files": {
+            "data_path": (remote_data_path, file_like_data, "application/json"),
+            "initial_parameters_path": (
+                remote_initial_parameters_path,
+                file_like_init,
+                "application/json",
+            ),
+        },
+    }
+
+    response = client.post(**request)
+    assert response.status_code == 200
+    gtt.assert_not_exist(remote_data_path)
+    gtt.assert_not_exist(remote_initial_parameters_path)
