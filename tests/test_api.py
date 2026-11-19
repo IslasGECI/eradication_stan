@@ -41,6 +41,7 @@ def test_api_write_eradication_bayesian_model_results():
     assert "q" in content[0]
     gtt.assert_not_exist(remote_data_path)
     gtt.assert_not_exist(remote_initial_parameters_path)
+    gtt.if_exist_remove("cat_eradication")
 
 
 def test_api_compute_eradication_bayesian_model_results():
@@ -72,3 +73,4 @@ def test_api_compute_eradication_bayesian_model_results():
     assert response.status_code == 200
     gtt.assert_not_exist(remote_data_path)
     gtt.assert_not_exist(remote_initial_parameters_path)
+    gtt.if_exist_remove("cat_eradication_traps")

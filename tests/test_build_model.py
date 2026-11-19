@@ -12,3 +12,4 @@ def test_build_model():
     build_model(stan_file)
 
     gtt.assert_exist(obtained_file)
+    gtt.if_exist_remove(obtained_file)
