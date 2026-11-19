@@ -35,7 +35,7 @@ model {
   // Likelihood
   captures ~ poisson(lambda);
 }
-generated traps_quantities {
+generated quantities {
   int is_extinct;
   real E_critical;
   array[T] int is_progress;

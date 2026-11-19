@@ -34,6 +34,33 @@ async def api_write_eradication_bayesian_model_results(
     return predictions.to_dict(orient="records")
 
 
+@api.post("/compute_eradication_bayesian_model_results")
+async def api_compute_eradication_bayesian_model_results(
+    data_path: UploadFile = File(...), initial_parameters_path: UploadFile = File(...)
+):
+    stan_file = "/workdir/cat_eradication_traps.stan"
+    build_model(stan_file)
+
+    await write_internal_file(data_path)
+    await write_internal_file(initial_parameters_path)
+
+    data_filename = data_path.filename
+    initial_parameters_filename = initial_parameters_path.filename
+    model_path = "cat_eradication_traps"
+    output_path = "api_predictions.csv"
+    predictions = run_predictions(
+        model_path=model_path,
+        data_path=data_filename,
+        initial_parameters=initial_parameters_filename,
+        output_path=output_path,
+    )
+
+    Path(str(data_filename)).unlink(missing_ok=True)
+    Path(str(initial_parameters_filename)).unlink(missing_ok=True)
+
+    return predictions.to_dict(orient="records")
+
+
 async def write_internal_file(data_path):
     content = await data_path.read()
     with open(data_path.filename, "wb") as f:
