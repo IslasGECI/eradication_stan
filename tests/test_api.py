@@ -56,6 +56,7 @@ def test_api_compute_eradication_bayesian_model_results():
 
     remote_data_path = "data.json"
     remote_initial_parameters_path = "init.json"
+    model_type = "traps"
 
     request = {
         "url": "/compute_eradication_bayesian_model_results",
@@ -66,6 +67,7 @@ def test_api_compute_eradication_bayesian_model_results():
                 file_like_init,
                 "application/json",
             ),
+            "data": {"model_type": model_type},
         },
     }
 
