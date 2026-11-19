@@ -68,10 +68,13 @@ def test_api_compute_eradication_bayesian_model_results():
                 "application/json",
             ),
         },
+        "data": {"model_type": model_type},
     }
 
     response = client.post(**request)
     assert response.status_code == 200
+    content = response.json()
+    assert "traps_q" in content[0]
     gtt.assert_not_exist(remote_data_path)
     gtt.assert_not_exist(remote_initial_parameters_path)
     gtt.if_exist_remove("cat_eradication_traps")
