@@ -1,7 +1,7 @@
 from eradication_stan.build_model import build_model
 from eradication_stan.run_predictions import run_predictions
 
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from pathlib import Path
 
 api = FastAPI()
@@ -36,11 +36,10 @@ async def api_write_eradication_bayesian_model_results(
 
 @api.post("/compute_eradication_bayesian_model_results")
 async def api_compute_eradication_bayesian_model_results(
-    data_path: UploadFile = File(...), initial_parameters_path: UploadFile = File(...)
+    data_path: UploadFile = File(...),
+    initial_parameters_path: UploadFile = File(...),
 ):
-    stan_file = "/workdir/cat_eradication_traps.stan"
-    build_model(stan_file)
-
+    await select_model("traps")
     await write_internal_file(data_path)
     await write_internal_file(initial_parameters_path)
 
@@ -59,6 +58,13 @@ async def api_compute_eradication_bayesian_model_results(
     Path(str(initial_parameters_filename)).unlink(missing_ok=True)
 
     return predictions.to_dict(orient="records")
+
+
+async def select_model(model_name):
+    models = {"traps": "cat_eradication_traps"}
+    model_file = models[model_name]
+    stan_file = f"/workdir/{model_file}.stan"
+    build_model(stan_file)
 
 
 async def write_internal_file(data_path):
