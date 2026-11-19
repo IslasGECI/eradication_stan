@@ -78,3 +78,29 @@ def test_api_compute_eradication_bayesian_model_results():
     gtt.assert_not_exist(remote_data_path)
     gtt.assert_not_exist(remote_initial_parameters_path)
     gtt.if_exist_remove("cat_eradication_traps")
+
+    model_type = "traps-and-cameras"
+
+    request = {
+        "url": "/compute_eradication_bayesian_model_results",
+        "files": {
+            "data_path": (remote_data_path, file_like_data, "application/json"),
+            "initial_parameters_path": (
+                remote_initial_parameters_path,
+                file_like_init,
+                "application/json",
+            ),
+        },
+        "data": {"model_type": model_type},
+    }
+
+    response = client.post(**request)
+    assert response.status_code == 200
+    content = response.json()
+    assert "traps_q" in content[0]
+    assert "cameras_q" in content[0]
+    gtt.assert_not_exist(remote_data_path)
+    gtt.assert_not_exist(remote_initial_parameters_path)
+    obtained_compiled_file = "cat_eradication_traps_and_cameras"
+    gtt.assert_exist(obtained_compiled_file)
+    gtt.if_exist_remove(obtained_compiled_file)
