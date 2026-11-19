@@ -38,17 +38,22 @@ async def api_write_eradication_bayesian_model_results(
 async def api_compute_eradication_bayesian_model_results(
     data_path: UploadFile = File(...),
     initial_parameters_path: UploadFile = File(...),
+    model_type: str = Form(...),
 ):
-    await select_model("traps")
+    models = {
+        "traps": "cat_eradication_traps",
+        "traps-and-cameras": "cat_eradication_traps_and_cameras",
+    }
+    model_file = models[model_type]
+    await select_model(model_file)
     await write_internal_file(data_path)
     await write_internal_file(initial_parameters_path)
 
     data_filename = data_path.filename
     initial_parameters_filename = initial_parameters_path.filename
-    model_path = "cat_eradication_traps"
     output_path = "api_predictions.csv"
     predictions = run_predictions(
-        model_path=model_path,
+        model_path=model_file,
         data_path=data_filename,
         initial_parameters=initial_parameters_filename,
         output_path=output_path,
@@ -60,9 +65,7 @@ async def api_compute_eradication_bayesian_model_results(
     return predictions.to_dict(orient="records")
 
 
-async def select_model(model_name):
-    models = {"traps": "cat_eradication_traps"}
-    model_file = models[model_name]
+async def select_model(model_file):
     stan_file = f"/workdir/{model_file}.stan"
     build_model(stan_file)
 
