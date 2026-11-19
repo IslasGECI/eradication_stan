@@ -101,6 +101,6 @@ def test_api_compute_eradication_bayesian_model_results():
     assert "cameras_q" in content[0]
     gtt.assert_not_exist(remote_data_path)
     gtt.assert_not_exist(remote_initial_parameters_path)
-    obtained_compiled_file = "cat_eradication_traps_and_cameras"
+    obtained_compiled_file = "/workdir/cat_eradication_traps_and_cameras"
     gtt.assert_exist(obtained_compiled_file)
     gtt.if_exist_remove(obtained_compiled_file)
