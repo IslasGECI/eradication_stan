@@ -8,11 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `POST /compute_eradication_bayesian_model_results` accepts trap and camera survey data and returns eradication-model results.
 
 ### Fixed
-- Erase output file from `run_predictions()`.
 
 ### Changed
+- `POST /write_eradication_bayesian_model_results` now returns `E_critical`, `is_progress`, `is_progress_from_births` and `n_birth` instead of `prob_extinction`, using growth-rate bounds `r` between `5e-2` and `1` and the prior `normal(0.08, 0.03)`.
 
 ### Removed
 
@@ -26,5 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[unreleased]: https://github.com/IslasGECI/dummy_transformations/compare/v0.2.0...HEAD
-[0.1.0]: https://github.com/IslasGECI/dummy_transformations/releases/tag/v0.1.0
+[unreleased]: https://github.com/IslasGECI/eradication_stan/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/IslasGECI/eradication_stan/releases/tag/v0.2.0
+[0.1.0]: https://github.com/IslasGECI/eradication_stan/releases/tag/v0.1.0
