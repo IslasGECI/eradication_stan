@@ -1,6 +1,7 @@
 from eradication_stan.build_model import build_model
 from eradication_stan.run_predictions import run_predictions
 
+from enum import StrEnum
 from fastapi import FastAPI, UploadFile, File, Form
 from pathlib import Path
 
@@ -34,11 +35,16 @@ async def api_write_eradication_bayesian_model_results(
     return predictions.to_dict(orient="records")
 
 
+class ModelName(StrEnum):
+    traps = "traps"
+    traps_and_cameras = "traps-and-cameras"
+
+
 @api.post("/compute_eradication_bayesian_model_results")
 async def api_compute_eradication_bayesian_model_results(
     data_path: UploadFile = File(...),
     initial_parameters_path: UploadFile = File(...),
-    model_type: str = Form(...),
+    model_type: ModelName = Form(...),
 ):
     models = {
         "traps": "cat_eradication_traps",
