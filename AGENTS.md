@@ -9,7 +9,7 @@ The public interface is the FastAPI app exported as `api` from `eradication_stan
 - Python >=3.9; `flit_core` builds the `eradication_stan` distribution. Runtime requirements: `fastapi`, `httpx`, `pandas`, `python-multipart`; dev extra: `pandas-stubs`, `geci-test-tools`.
 - `Dockerfile` installs tooling, clones CmdStan recursively into `/opt/cmdstan`, runs `make build` there, then `make install` from `/workdir`.
 - `api.py` and `run_predictions.py` hardcode `/workdir` paths; `build_model.py` runs `make <stan_basename>` with `cwd="/opt/cmdstan"`.
-- Compiled Stan executables land beside their sources: `cat_eradication` and `cat_eradication_traps` in `/workdir`; `tests/data/cat_eradication_for_tests` is tracked with mode `100755`.
+- Compiled Stan executables land beside their sources: `cat_eradication`, `cat_eradication_traps` and `cat_eradication_traps_and_cameras` in `/workdir`; `tests/data/cat_eradication_for_tests` is tracked with mode `100755`.
 
 ## Verification
 

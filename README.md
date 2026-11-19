@@ -17,7 +17,7 @@ Eradication Stan turns counts of captured cats and the effort put into trapping 
 
 ## Usage
 
-Send your observations file and your starting-guesses file together to the service. It replies with a list of result rows you can open in a spreadsheet or analysis tool. Two analyses are available: one for only trap survey, and one that also uses trap and camera survey records.
+Send your observations file and your starting-guesses file together to the service. It replies with a list of result rows you can open in a spreadsheet or analysis tool. You can analyse trap counts alone, or trap counts together with camera detections.
 
 ## Before you start
 

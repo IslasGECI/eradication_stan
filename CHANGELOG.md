@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `POST /compute_eradication_bayesian_model_results` accepts trap and camera survey data and returns eradication-model results.
+- `POST /compute_eradication_bayesian_model_results` accepts trap survey data with a `model_type` of `traps` or `traps-and-cameras` and returns eradication-model results, including `cameras_q` for the latter.
 
 ### Fixed
 
