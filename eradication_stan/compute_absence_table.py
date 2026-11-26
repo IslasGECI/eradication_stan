@@ -9,6 +9,22 @@ from eradication_stan.build_model import build_model
 
 def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     traps_effort_captures_df_copy = traps_effort_captures_df.copy()
+
+    posterior = compute_posterior_distribution(traps_effort_captures_df)
+    population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
+    first_part_table = {
+        "Fecha": pd.to_datetime(traps_effort_captures_df.Fecha),
+        "Esfuerzo": traps_effort_captures_df.Esfuerzo,
+        "Capturas": traps_effort_captures_df.Capturas,
+        "population_size_percentile_95": [
+            posterior[column].quantile(0.95) for column in population_size_columns
+        ],
+        "extinct_probability": [
+            sum(posterior[column] < 1) / len(posterior) for column in population_size_columns
+        ],
+    }
+    first_part_dataframe = pd.DataFrame.from_dict(first_part_table)
+
     median_effort = traps_effort_captures_df_copy["Esfuerzo"].median()
     table = pd.DataFrame(
         columns=[
@@ -44,7 +60,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
             "Capturas": 0,
         }
         traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
-    return table
+    return pd.concat([first_part_dataframe, table])
 
 
 def compute_absence_row(traps_effort_captures_df):
