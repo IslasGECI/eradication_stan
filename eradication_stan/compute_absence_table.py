@@ -1,8 +1,23 @@
 import json
+import pandas as pd
 
 from cat_data_tools import transform_effort_captures_to_dict
 from eradication_stan.run_predictions import run_predictions
 from eradication_stan.build_model import build_model
+
+
+def compute_absence_row(traps_effort_captures_df):
+    posterior = compute_posterior_distribution(traps_effort_captures_df)
+    population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
+    population_size_percentile_95 = posterior[population_size_columns[-1]].quantile(0.95)
+    extinct_probability = sum(posterior["is_extinct"]) / len(posterior)
+    new_row = {
+        "Fecha": traps_effort_captures_df.Fecha.iloc[-1],
+        "Esfuerzo": traps_effort_captures_df.Esfuerzo.iloc[-1],
+        "population_size_percentile_95": population_size_percentile_95,
+        "extinct_probability": extinct_probability,
+    }
+    return new_row
 
 
 def compute_posterior_distribution(traps_effort_captures_df):
