@@ -13,7 +13,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_p
     posterior = compute_posterior_distribution(
         traps_effort_captures_df, initial_parameters_filename
     )
-    population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
+    population_size_columns = extract_population_size_columns(posterior)
     first_part_table = {
         "Fecha": pd.to_datetime(traps_effort_captures_df.Fecha),
         "Esfuerzo": traps_effort_captures_df.Esfuerzo,
