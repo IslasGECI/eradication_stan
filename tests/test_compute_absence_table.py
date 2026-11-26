@@ -24,5 +24,5 @@ def test_compute_absence_row():
     expected_columns = set(
         ["Fecha", "Esfuerzo", "population_size_percentil_95", "extinct_probability"]
     )
-    assert set(obtained.columns) == expected_columns
-    assert len(obtained) == 1
+    assert set(obtained.keys()) == expected_columns
+    assert isinstance(obtained, dict)
