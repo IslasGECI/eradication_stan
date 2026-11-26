@@ -78,12 +78,10 @@ def compute_absence_row(traps_effort_captures_df):
     return new_row
 
 
-def compute_posterior_distribution(traps_effort_captures_df):
+def xxcompute_posterior_distribution(traps_effort_captures_df, initial_parameters_filename):
     effort_captures_dict = transform_effort_captures_to_dict(traps_effort_captures_df)
     internal_json_path = "internal_effort_captures_to_stan.json"
     write_json(effort_captures_dict, internal_json_path)
-
-    initial_parameters_filename = "tests/data/init.json"
 
     output_path = "internal_distribution.csv"
     model_file = "cat_eradication"
@@ -97,6 +95,11 @@ def compute_posterior_distribution(traps_effort_captures_df):
         output_path=output_path,
     )
     return predictions
+
+
+def compute_posterior_distribution(traps_effort_captures_df):
+    initial_parameters_filename = "tests/data/init.json"
+    return xxcompute_posterior_distribution(traps_effort_captures_df, initial_parameters_filename)
 
 
 def write_json(data, file_path):
