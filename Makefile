@@ -72,7 +72,7 @@ mutants: setup install_dev
 
 setup: clean install_dev
 
-tests_path=tests/test_compute_absence_table.py
+tests_path = tests
 
 tests:
 	pytest --verbose tests
