@@ -1,9 +1,11 @@
 from eradication_stan.build_model import build_model
 from eradication_stan.run_predictions import run_predictions
+from eradication_stan.compute_absence_table import compute_absence_table
 
 from enum import StrEnum
 from fastapi import FastAPI, UploadFile, File, Form
 from pathlib import Path
+import pandas as pd
 
 api = FastAPI()
 
@@ -67,6 +69,23 @@ async def api_compute_eradication_bayesian_model_results(
     _delete_uploaded_files(data_filename, initial_parameters_filename)
 
     return predictions.to_dict(orient="records")
+
+
+@api.post("/compute_absence_probaility_table")
+async def api_compute_absence_probaility_table(
+    data_path: UploadFile = File(...),
+    initial_parameters_path: UploadFile = File(...),
+    months_to_iterate: int = Form(...),
+):
+    await write_uploaded_file(data_path)
+    await write_uploaded_file(initial_parameters_path)
+
+    data_df = pd.read_csv(data_path.filename)
+    initial_parameters_filename = initial_parameters_path.filename
+    table_df = compute_absence_table(data_df, months_to_iterate, initial_parameters_filename)
+    _delete_uploaded_files(data_path.filename, initial_parameters_filename)
+
+    return table_df.to_dict(orient="records")
 
 
 async def select_model(model_file):
