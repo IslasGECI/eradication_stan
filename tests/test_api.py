@@ -12,11 +12,8 @@ def test_api_write_eradication_bayesian_model_results():
     real_data_path = "tests/data/data.json"
     initial_parameters_path = "tests/data/init.json"
 
-    with open(real_data_path, "rb") as f:
-        file_like_data = io.BytesIO(f.read())
-
-    with open(initial_parameters_path, "rb") as f:
-        file_like_init = io.BytesIO(f.read())
+    file_like_data = load_file_on_buffer(real_data_path)
+    file_like_init = load_file_on_buffer(initial_parameters_path)
 
     remote_data_path = "data.json"
     remote_initial_parameters_path = "init.json"
@@ -48,11 +45,8 @@ def test_api_compute_eradication_bayesian_model_results():
     real_data_path = "tests/data/cameras_and_traps_effort_and_captures.json"
     initial_parameters_path = "tests/data/init_with_cameras.json"
 
-    with open(real_data_path, "rb") as f:
-        file_like_data = io.BytesIO(f.read())
-
-    with open(initial_parameters_path, "rb") as f:
-        file_like_init = io.BytesIO(f.read())
+    file_like_data = load_file_on_buffer(real_data_path)
+    file_like_init = load_file_on_buffer(initial_parameters_path)
 
     remote_data_path = "data.json"
     remote_initial_parameters_path = "init.json"
@@ -104,3 +98,9 @@ def test_api_compute_eradication_bayesian_model_results():
     obtained_compiled_file = "/workdir/cat_eradication_traps_and_cameras"
     gtt.assert_exist(obtained_compiled_file)
     gtt.if_exist_remove(obtained_compiled_file)
+
+
+def load_file_on_buffer(path):
+    with open(path, "rb") as f:
+        file_like_data = io.BytesIO(f.read())
+    return file_like_data
