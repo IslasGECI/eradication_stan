@@ -10,7 +10,10 @@ from eradication_stan.build_model import build_model
 def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     traps_effort_captures_df_copy = traps_effort_captures_df.copy()
 
-    posterior = compute_posterior_distribution(traps_effort_captures_df)
+    initial_parameters_filename = "tests/data/init.json"
+    posterior = xxcompute_posterior_distribution(
+        traps_effort_captures_df, initial_parameters_filename
+    )
     population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
     first_part_table = {
         "Fecha": pd.to_datetime(traps_effort_captures_df.Fecha),
