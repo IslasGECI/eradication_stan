@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `POST /compute_absence_probaility_table` returns a projected absence table with 95th-percentile population size and extinction probability from monthly trap-effort and capture records.
 
 ### Changed
 
 ### Fixed
-- Extinction detection in `cat_eradication.stan` now requires two consecutive zero-capture periods with effort above 2000 and population below one, and avoids declaring extinction from low-effort surveys.
+- `POST /write_eradication_bayesian_model_results` now treats two consecutive zero-capture periods with effort above 2000 and population below one as extinction, and keeps at least one individual alive when survey effort is low.
+- `POST /compute_eradication_bayesian_model_results` with `model_type=traps` now uses the same extinction and low-effort rules.
 
 ### Removed
 

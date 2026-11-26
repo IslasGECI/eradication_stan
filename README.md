@@ -9,15 +9,14 @@ parameter](https://github.com/IslasGECI/eradication_stan/actions/workflows/actio
 ![PyPI - Version](https://img.shields.io/pypi/v/eradication_stan)
 
 Know when a cat-eradication campaign is working. 🐍
-Python wrapper used for [Stan software](https://mc-stan.org/) used for cat eradication project. 🐍
 
 ## What it does
 
-Eradication Stan turns counts of captured cats and the effort put into trapping or camera surveys into an estimate of how the cat population is changing. It reports the likely starting population, growth rate and detection rate, and flags whether each period's effort is enough to keep the population shrinking.
+Eradication Stan turns counts of captured cats and the effort put into trapping or camera surveys into an estimate of how the cat population is changing. It reports the likely starting population, how quickly the population is changing, and how often cats are found. It also flags whether each period's effort is enough to keep the population shrinking and shows how the chance of absence changes over future months.
 
 ## Usage
 
-Send your observations file and your starting-guesses file together to the service. It replies with a list of result rows you can open in a spreadsheet or analysis tool. You can analyse trap counts alone, or trap counts together with camera detections.
+Send your observations file and your starting-guesses file together to the service. It replies with a list of result rows you can open in a spreadsheet or analysis tool. You can analyse trap counts alone, trap counts together with camera detections, or ask for a projected absence table.
 
 ## Before you start
 

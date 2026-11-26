@@ -22,3 +22,15 @@ Parameters
 
 Returns
 - JSON array of result records, including `N0`, `r`, `traps_q`, `is_extinct`, `E_critical`, `is_progress`, `is_progress_from_births` and `n_birth`; `cameras_q` is included for `traps-and-cameras`.
+
+### POST /compute_absence_probaility_table/
+
+Projects monthly trap-survey records and returns a table of future absence estimates.
+
+Parameters
+- `data_path`: uploaded CSV file holding `Fecha`, `Esfuerzo` and `Capturas`.
+- `initial_parameters_path`: uploaded JSON file holding starting values `N0`, `r` and `traps_q`.
+- `months_to_iterate`: form field giving the number of future months to project.
+
+Returns
+- JSON array with `Fecha`, `Esfuerzo`, `Capturas`, `population_size_percentile_95` and `extinct_probability`.
