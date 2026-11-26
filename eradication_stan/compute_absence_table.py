@@ -45,7 +45,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(traps_effort_captures_df_copy["Fecha"])
     next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
     new_row = {
-        "Fecha": next_month.strftime("%Y-%m-%d"),
+        "Fecha": next_month,
         "Esfuerzo": int(effort),
         "Capturas": np.floor(first_absence_row["population_size_percentile_95"]),
     }
