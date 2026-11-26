@@ -15,7 +15,7 @@ def test_compute_absence_table():
     obtained = compute_absence_table(
         traps_effort_captures_df, months_to_iterate, initial_parameters_path
     )
-    obtained.to_csv("abscence_table.csv", index=False)
+    obtained.to_csv("absence_table.csv", index=False)
     assert isinstance(obtained, pd.DataFrame)
     expected_shape = (months_to_iterate + len(traps_effort_captures_df), 5)
     assert obtained.shape == expected_shape
