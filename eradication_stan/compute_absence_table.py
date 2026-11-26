@@ -7,10 +7,11 @@ from eradication_stan.run_predictions import run_predictions
 from eradication_stan.build_model import build_model
 
 
-def compute_absence_table(traps_effort_captures_df, months_to_iterate):
+def xxcompute_absence_table(
+    traps_effort_captures_df, months_to_iterate, initial_parameters_filename
+):
     traps_effort_captures_df_copy = traps_effort_captures_df.copy()
 
-    initial_parameters_filename = "tests/data/init.json"
     posterior = compute_posterior_distribution(
         traps_effort_captures_df, initial_parameters_filename
     )
@@ -66,6 +67,13 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
         }
         traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
     return pd.concat([first_part_dataframe, table])
+
+
+def compute_absence_table(traps_effort_captures_df, months_to_iterate):
+    initial_parameters_filename = "tests/data/init.json"
+    return xxcompute_absence_table(
+        traps_effort_captures_df, months_to_iterate, initial_parameters_filename
+    )
 
 
 def compute_absence_row(traps_effort_captures_df, initial_parameters_filename):
