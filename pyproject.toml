@@ -10,6 +10,7 @@ description-file = "README.md"
 home-page = "https://github.com/IslasGECI/eradication_stan"
 module = "eradication_stan"
 requires = [
+    "cat-data-tools",
     "fastapi",
     "httpx",
     "pandas",
