@@ -1,5 +1,6 @@
 # Backlog
 
+- [ ] Explore the benefits of return JSONResponse on each endpoint
 ## Features
 - [ ] Agregar columna "population_size_percentile_50" a la tabla que sale de `compute_absence_table()`
 ## Bugs
