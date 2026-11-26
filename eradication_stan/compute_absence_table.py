@@ -38,7 +38,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
             "extinct_probability",
         ]
     )
-    first_absence_row = xxcompute_absence_row(
+    first_absence_row = compute_absence_row(
         traps_effort_captures_df_copy, initial_parameters_filename
     )
     effort = traps_effort_captures_df_copy["Esfuerzo"].quantile(0.75)
@@ -52,7 +52,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
 
     for _ in range(months_to_iterate):
-        new_row = xxcompute_absence_row(traps_effort_captures_df_copy, initial_parameters_filename)
+        new_row = compute_absence_row(traps_effort_captures_df_copy, initial_parameters_filename)
         table.loc[len(table)] = new_row
 
         traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(
@@ -68,7 +68,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     return pd.concat([first_part_dataframe, table])
 
 
-def xxcompute_absence_row(traps_effort_captures_df, initial_parameters_filename):
+def compute_absence_row(traps_effort_captures_df, initial_parameters_filename):
     posterior = compute_posterior_distribution(
         traps_effort_captures_df, initial_parameters_filename
     )
@@ -83,11 +83,6 @@ def xxcompute_absence_row(traps_effort_captures_df, initial_parameters_filename)
         "extinct_probability": extinct_probability,
     }
     return new_row
-
-
-def compute_absence_row(traps_effort_captures_df):
-    initial_parameters_filename = "tests/data/init.json"
-    return xxcompute_absence_row(traps_effort_captures_df, initial_parameters_filename)
 
 
 def compute_posterior_distribution(traps_effort_captures_df, initial_parameters_filename):

@@ -3,7 +3,7 @@ import pandas as pd
 from eradication_stan.compute_absence_table import (
     compute_absence_table,
     compute_posterior_distribution,
-    xxcompute_absence_row,
+    compute_absence_row,
 )
 
 traps_effort_captures_df = pd.read_csv("tests/data/esfuerzo_capturas_mensuales_gatos_socorro.csv")
@@ -34,7 +34,7 @@ def test_compute_posterior_distribution():
 
 
 def test_compute_absence_row():
-    obtained = xxcompute_absence_row(traps_effort_captures_df, initial_parameters_path)
+    obtained = compute_absence_row(traps_effort_captures_df, initial_parameters_path)
     expected_columns = set(
         ["Fecha", "Esfuerzo", "Capturas", "population_size_percentile_95", "extinct_probability"]
     )
