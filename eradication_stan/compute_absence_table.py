@@ -6,6 +6,16 @@ from eradication_stan.run_predictions import run_predictions
 from eradication_stan.build_model import build_model
 
 
+def compute_absence_table(traps_effort_captures_df, months_to_iterate):
+    table = pd.DataFrame(
+        columns=["Fecha", "Esfuerzo", "population_size_percentile_95", "extinnct_probability"]
+    )
+    for i in range(months_to_iterate):
+        new_row = compute_absence_row(traps_effort_captures_df)
+        table.loc[len(table)] = new_row
+    return table
+
+
 def compute_absence_row(traps_effort_captures_df):
     posterior = compute_posterior_distribution(traps_effort_captures_df)
     population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
