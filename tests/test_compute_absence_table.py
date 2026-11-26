@@ -1,7 +1,7 @@
 import pandas as pd
 
 from eradication_stan.compute_absence_table import (
-    xxcompute_absence_table,
+    compute_absence_table,
     compute_posterior_distribution,
     compute_absence_row,
 )
@@ -12,7 +12,7 @@ initial_parameters_path = "tests/data/init.json"
 
 def test_compute_absence_table():
     months_to_iterate = 10
-    obtained = xxcompute_absence_table(
+    obtained = compute_absence_table(
         traps_effort_captures_df, months_to_iterate, initial_parameters_path
     )
     obtained.to_csv("abscence_table.csv", index=False)
