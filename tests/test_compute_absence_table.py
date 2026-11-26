@@ -3,10 +3,11 @@ import pandas as pd
 from eradication_stan.compute_absence_table import (
     compute_absence_table,
     compute_posterior_distribution,
-    compute_absence_row,
+    xxcompute_absence_row,
 )
 
 traps_effort_captures_df = pd.read_csv("tests/data/esfuerzo_capturas_mensuales_gatos_socorro.csv")
+initial_parameters_path = "tests/data/init.json"
 
 
 def test_compute_absence_table():
@@ -22,7 +23,6 @@ def test_compute_absence_table():
 
 
 def test_compute_posterior_distribution():
-    initial_parameters_path = "tests/data/init.json"
     obtained = compute_posterior_distribution(traps_effort_captures_df, initial_parameters_path)
     expected_rows = 1000
     assert len(obtained) == expected_rows
@@ -34,7 +34,7 @@ def test_compute_posterior_distribution():
 
 
 def test_compute_absence_row():
-    obtained = compute_absence_row(traps_effort_captures_df)
+    obtained = xxcompute_absence_row(traps_effort_captures_df, initial_parameters_path)
     expected_columns = set(
         ["Fecha", "Esfuerzo", "Capturas", "population_size_percentile_95", "extinct_probability"]
     )
