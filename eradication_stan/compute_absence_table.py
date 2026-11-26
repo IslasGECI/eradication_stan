@@ -7,12 +7,25 @@ from eradication_stan.build_model import build_model
 
 
 def compute_absence_table(traps_effort_captures_df, months_to_iterate):
+    traps_effort_captures_df_copy = traps_effort_captures_df.copy()
+    median_effort = traps_effort_captures_df_copy["Esfuerzo"].median()
     table = pd.DataFrame(
         columns=["Fecha", "Esfuerzo", "population_size_percentile_95", "extinnct_probability"]
     )
-    for i in range(months_to_iterate):
-        new_row = compute_absence_row(traps_effort_captures_df)
+    for _ in range(months_to_iterate):
+        new_row = compute_absence_row(traps_effort_captures_df_copy)
         table.loc[len(table)] = new_row
+
+        traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(
+            traps_effort_captures_df_copy["Fecha"]
+        )
+        next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
+        new_row = {
+            "Fecha": next_month.strftime("%Y-%m-%d"),
+            "Esfuerzo": median_effort,
+            "Capturas": 0,
+        }
+        traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
     return table
 
 
