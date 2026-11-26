@@ -60,7 +60,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
         )
         next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
         new_row = {
-            "Fecha": next_month.strftime("%Y-%m-%d"),
+            "Fecha": next_month,
             "Esfuerzo": median_effort,
             "Capturas": 0,
         }
