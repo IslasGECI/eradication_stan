@@ -33,24 +33,18 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_p
     for _ in range(months_to_iterate):
         new_row = compute_absence_row(traps_effort_captures_df_copy, initial_parameters_filename)
         table.loc[len(table)] = new_row
-
-        traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(
-            traps_effort_captures_df_copy["Fecha"]
-        )
-        next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
-        new_row_with_zero_captures = {
-            "Fecha": next_month,
-            "Esfuerzo": median_effort,
-            "Capturas": 0,
-        }
-        traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = (
-            new_row_with_zero_captures
-        )
+        update_df_with_zero_captures(traps_effort_captures_df_copy, median_effort)
     return pd.concat([first_part_dataframe, table])
 
 
 def update_df_to_remove_individuals(traps_effort_captures_df_copy, first_absence_row, effort):
     captures = np.floor(first_absence_row["population_size_percentile_95"])
+    effort_row = int(effort)
+    update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row)
+
+
+def update_df_with_zero_captures(traps_effort_captures_df_copy, effort):
+    captures = 0
     effort_row = int(effort)
     update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row)
 
