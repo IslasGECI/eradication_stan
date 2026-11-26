@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Fixed
-
 ### Changed
+
+### Fixed
+- Extinction detection in `cat_eradication.stan` now requires two consecutive zero-capture periods with effort above 2000 and population below one, and avoids declaring extinction from low-effort surveys.
 
 ### Removed
 
@@ -32,6 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First dummy entrypoint `write_eradication_bayesian_model_results`
 
 [unreleased]: https://github.com/IslasGECI/eradication_stan/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/IslasGECI/eradication_stan/releases/tag/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/IslasGECI/eradication_stan/releases/tag/v0.1.0...v0.2.0
+[0.3.0]: https://github.com/IslasGECI/eradication_stan/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/IslasGECI/eradication_stan/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/IslasGECI/eradication_stan/releases/tag/v0.1.0
