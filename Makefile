@@ -72,23 +72,25 @@ mutants: setup install_dev
 
 setup: clean install_dev
 
+tests_path=tests/test_compute_absence_table.py
+
 tests:
 	pytest --verbose tests
 
 red: format
-	pytest --verbose \
+	pytest --verbose ${tests_path} \
 	&& git restore tests/*.py \
 	|| (git add tests/*.py && git commit -m "🛑🧪 Fail tests")
 	chmod g+w -R .
 
 green: format
-	pytest --verbose \
+	pytest --verbose ${tests_path} \
 	&& (git add ${module}/*.py tests/*.py && git commit -m "✅ Pass tests") \
 	|| git restore ${module}/*.py
 	chmod g+w -R .
 
 refactor: format
-	pytest --verbose \
+	pytest --verbose ${tests_path} \
 	&& (git add ${module}/*.py tests/*.py && git commit -m "♻️  Refactor ${message}") \
 	|| git restore ${module}/*.py tests/*.py
 	chmod g+w -R .
