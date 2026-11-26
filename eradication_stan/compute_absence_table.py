@@ -15,15 +15,15 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_p
     )
 
     median_effort = traps_effort_captures_df_copy["Esfuerzo"].median()
-    table = pd.DataFrame(
-        columns=[
-            "Fecha",
-            "Esfuerzo",
-            "Capturas",
-            "population_size_percentile_95",
-            "extinct_probability",
-        ]
-    )
+    table_columns = [
+        "Fecha",
+        "Esfuerzo",
+        "Capturas",
+        "population_size_percentile_95",
+        "extinct_probability",
+    ]
+
+    table = pd.DataFrame(columns=table_columns)
     first_absence_row = compute_absence_row(
         traps_effort_captures_df_copy, initial_parameters_filename
     )
@@ -39,22 +39,21 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_p
 
 def update_df_to_remove_individuals(traps_effort_captures_df_copy, first_absence_row, effort):
     captures = np.floor(first_absence_row["population_size_percentile_95"])
-    effort_row = int(effort)
-    update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row)
+    update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort)
 
 
 def update_df_with_zero_captures(traps_effort_captures_df_copy, effort):
     captures = 0
-    effort_row = int(effort)
-    update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row)
+    update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort)
 
 
 def update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row):
+    effort = int(effort_row)
     traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(traps_effort_captures_df_copy["Fecha"])
     next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
     new_row = {
         "Fecha": next_month,
-        "Esfuerzo": effort_row,
+        "Esfuerzo": effort,
         "Capturas": captures,
     }
     traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
