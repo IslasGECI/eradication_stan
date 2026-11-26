@@ -2,7 +2,7 @@ import pandas as pd
 
 from eradication_stan.compute_absence_table import (
     compute_absence_table,
-    compute_posterior_distribution,
+    xxcompute_posterior_distribution,
     compute_absence_row,
 )
 
@@ -22,7 +22,8 @@ def test_compute_absence_table():
 
 
 def test_compute_posterior_distribution():
-    obtained = compute_posterior_distribution(traps_effort_captures_df)
+    initial_parameters_path = "tests/data/init.json"
+    obtained = xxcompute_posterior_distribution(traps_effort_captures_df, initial_parameters_path)
     expected_rows = 1000
     assert len(obtained) == expected_rows
     expected_population_columns = 13
