@@ -66,8 +66,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     return pd.concat([first_part_dataframe, table])
 
 
-def compute_absence_row(traps_effort_captures_df):
-    initial_parameters_filename = "tests/data/init.json"
+def xxcompute_absence_row(traps_effort_captures_df, initial_parameters_filename):
     posterior = compute_posterior_distribution(
         traps_effort_captures_df, initial_parameters_filename
     )
@@ -82,6 +81,11 @@ def compute_absence_row(traps_effort_captures_df):
         "extinct_probability": extinct_probability,
     }
     return new_row
+
+
+def compute_absence_row(traps_effort_captures_df):
+    initial_parameters_filename = "tests/data/init.json"
+    return xxcompute_absence_row(traps_effort_captures_df, initial_parameters_filename)
 
 
 def compute_posterior_distribution(traps_effort_captures_df, initial_parameters_filename):
