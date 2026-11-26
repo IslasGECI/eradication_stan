@@ -10,22 +10,9 @@ from eradication_stan.build_model import build_model
 def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_parameters_filename):
     traps_effort_captures_df_copy = traps_effort_captures_df.copy()
 
-    posterior = compute_posterior_distribution(
+    first_part_dataframe = compute_absence_table_from_current_data(
         traps_effort_captures_df, initial_parameters_filename
     )
-    population_size_columns = extract_population_size_columns(posterior)
-    first_part_table = {
-        "Fecha": pd.to_datetime(traps_effort_captures_df.Fecha),
-        "Esfuerzo": traps_effort_captures_df.Esfuerzo,
-        "Capturas": traps_effort_captures_df.Capturas,
-        "population_size_percentile_95": [
-            posterior[column].quantile(0.95) for column in population_size_columns
-        ],
-        "extinct_probability": [
-            sum(posterior[column] < 1) / len(posterior) for column in population_size_columns
-        ],
-    }
-    first_part_dataframe = pd.DataFrame.from_dict(first_part_table)
 
     median_effort = traps_effort_captures_df_copy["Esfuerzo"].median()
     table = pd.DataFrame(
@@ -41,14 +28,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_p
         traps_effort_captures_df_copy, initial_parameters_filename
     )
     effort = traps_effort_captures_df_copy["Esfuerzo"].quantile(0.75)
-    traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(traps_effort_captures_df_copy["Fecha"])
-    next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
-    new_row = {
-        "Fecha": next_month,
-        "Esfuerzo": int(effort),
-        "Capturas": np.floor(first_absence_row["population_size_percentile_95"]),
-    }
-    traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
+    update_df_to_remove_individuals(traps_effort_captures_df_copy, first_absence_row, effort)
 
     for _ in range(months_to_iterate):
         new_row = compute_absence_row(traps_effort_captures_df_copy, initial_parameters_filename)
@@ -67,6 +47,43 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate, initial_p
             new_row_with_zero_captures
         )
     return pd.concat([first_part_dataframe, table])
+
+
+def update_df_to_remove_individuals(traps_effort_captures_df_copy, first_absence_row, effort):
+    captures = np.floor(first_absence_row["population_size_percentile_95"])
+    effort_row = int(effort)
+    update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row)
+
+
+def update_effort_and_captures_next_row(traps_effort_captures_df_copy, captures, effort_row):
+    traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(traps_effort_captures_df_copy["Fecha"])
+    next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
+    new_row = {
+        "Fecha": next_month,
+        "Esfuerzo": effort_row,
+        "Capturas": captures,
+    }
+    traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
+
+
+def compute_absence_table_from_current_data(traps_effort_captures_df, initial_parameters_filename):
+    posterior = compute_posterior_distribution(
+        traps_effort_captures_df, initial_parameters_filename
+    )
+    population_size_columns = extract_population_size_columns(posterior)
+    first_part_table = {
+        "Fecha": pd.to_datetime(traps_effort_captures_df.Fecha),
+        "Esfuerzo": traps_effort_captures_df.Esfuerzo,
+        "Capturas": traps_effort_captures_df.Capturas,
+        "population_size_percentile_95": [
+            posterior[column].quantile(0.95) for column in population_size_columns
+        ],
+        "extinct_probability": [
+            sum(posterior[column] < 1) / len(posterior) for column in population_size_columns
+        ],
+    }
+    first_part_dataframe = pd.DataFrame.from_dict(first_part_table)
+    return first_part_dataframe
 
 
 def compute_absence_row(traps_effort_captures_df, initial_parameters_filename):
