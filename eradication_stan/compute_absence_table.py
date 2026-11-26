@@ -1,4 +1,5 @@
 import json
+import numpy as np
 import pandas as pd
 
 from cat_data_tools import transform_effort_captures_to_dict
@@ -10,8 +11,25 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     traps_effort_captures_df_copy = traps_effort_captures_df.copy()
     median_effort = traps_effort_captures_df_copy["Esfuerzo"].median()
     table = pd.DataFrame(
-        columns=["Fecha", "Esfuerzo", "population_size_percentile_95", "extinnct_probability"]
+        columns=[
+            "Fecha",
+            "Esfuerzo",
+            "Capturas",
+            "population_size_percentile_95",
+            "extinct_probability",
+        ]
     )
+    first_absence_row = compute_absence_row(traps_effort_captures_df_copy)
+    effort = traps_effort_captures_df_copy["Esfuerzo"].quantile(0.75)
+    traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(traps_effort_captures_df_copy["Fecha"])
+    next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
+    new_row = {
+        "Fecha": next_month.strftime("%Y-%m-%d"),
+        "Esfuerzo": int(effort),
+        "Capturas": np.floor(first_absence_row["population_size_percentile_95"]),
+    }
+    traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
+
     for _ in range(months_to_iterate):
         new_row = compute_absence_row(traps_effort_captures_df_copy)
         table.loc[len(table)] = new_row
@@ -35,8 +53,9 @@ def compute_absence_row(traps_effort_captures_df):
     population_size_percentile_95 = posterior[population_size_columns[-1]].quantile(0.95)
     extinct_probability = sum(posterior["is_extinct"]) / len(posterior)
     new_row = {
-        "Fecha": traps_effort_captures_df.Fecha.iloc[-1],
+        "Fecha": pd.to_datetime(traps_effort_captures_df.Fecha.iloc[-1]),
         "Esfuerzo": traps_effort_captures_df.Esfuerzo.iloc[-1],
+        "Capturas": traps_effort_captures_df.Capturas.iloc[-1],
         "population_size_percentile_95": population_size_percentile_95,
         "extinct_probability": extinct_probability,
     }
