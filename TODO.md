@@ -1,5 +1,7 @@
 # Backlog
 
+## Features
+- [ ] Agregar columna "population_size_percentile_50" a la tabla que sale de `compute_absence_table()`
 ## Bugs
 
 - [ ] Fix `build_model()` error handling: `except result.CalledProcessError` in `eradication_stan/build_model.py:12` references `result` before assignment, and `subprocess.run` has no `check=True`, so failures are never raised there. Introduced in `d220697`.
