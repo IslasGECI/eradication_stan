@@ -35,7 +35,7 @@ transformed parameters {
     // With too little effort, zero captures do not prove absence: keep at
     // least one individual alive.
     if (esfuerzo[t] <= min_effort) {
-      N[t + 1] = fmax(N[t + 1], 1 + min_N);
+      N[t + 1] = fmax(N[t + 1] + 1, min_N + 1);
     }
     // Never let the population fall below the numerical floor.
     if (N[t + 1] < min_N) {
