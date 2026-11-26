@@ -22,7 +22,7 @@ def test_compute_posterior_distribution():
 def test_compute_absence_row():
     obtained = compute_absence_row(traps_effort_captures_df)
     expected_columns = set(
-        ["Fecha", "Esfuerzo", "population_size_percentil_95", "extinct_probability"]
+        ["Fecha", "Esfuerzo", "population_size_percentile_95", "extinct_probability"]
     )
     assert set(obtained.keys()) == expected_columns
     assert isinstance(obtained, dict)
