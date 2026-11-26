@@ -26,9 +26,10 @@ transformed parameters {
     // as extinct.
     if (t > 1
         && capturas[t - 1] < 1
-        && capturas[t] < 1
-        && N[t + 1] < 1
-        && esfuerzo[t] > min_effort) {
+        && capturas[t]     < 1
+        && esfuerzo[t - 1] > min_effort
+        && esfuerzo[t]     > min_effort
+        && N[t + 1] < 1) {
       N[t + 1] = min_N;
     }
     // With too little effort, zero captures do not prove absence: keep at
