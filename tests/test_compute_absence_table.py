@@ -15,6 +15,9 @@ def test_compute_absence_table():
     assert isinstance(obtained, pd.DataFrame)
     expected_shape = (months_to_iterate, 4)
     assert obtained.shape == expected_shape
+    last_date_from_raw_data = pd.to_datetime(traps_effort_captures_df.Fecha.iloc[-1])
+    obtained_last_date = pd.to_datetime(obtained.Fecha.iloc[-1])
+    assert obtained_last_date > last_date_from_raw_data
 
 
 def test_compute_posterior_distribution():
