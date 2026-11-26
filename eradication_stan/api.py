@@ -15,8 +15,8 @@ async def api_write_eradication_bayesian_model_results(
     stan_file = "/workdir/cat_eradication.stan"
     build_model(stan_file)
 
-    await write_internal_file(data_path)
-    await write_internal_file(initial_parameters_path)
+    await write_uploaded_file(data_path)
+    await write_uploaded_file(initial_parameters_path)
 
     data_filename = data_path.filename
     initial_parameters_filename = initial_parameters_path.filename
@@ -29,8 +29,7 @@ async def api_write_eradication_bayesian_model_results(
         output_path=output_path,
     )
 
-    Path(str(data_filename)).unlink(missing_ok=True)
-    Path(str(initial_parameters_filename)).unlink(missing_ok=True)
+    _delete_uploaded_files(data_filename, initial_parameters_filename)
 
     return predictions.to_dict(orient="records")
 
@@ -46,27 +45,26 @@ async def api_compute_eradication_bayesian_model_results(
     initial_parameters_path: UploadFile = File(...),
     model_type: ModelName = Form(...),
 ):
-    models = {
+    model_executables = {
         "traps": "cat_eradication_traps",
         "traps-and-cameras": "cat_eradication_traps_and_cameras",
     }
-    model_file = models[model_type]
-    await select_model(model_file)
-    await write_internal_file(data_path)
-    await write_internal_file(initial_parameters_path)
+    model_executable = model_executables[model_type]
+    await select_model(model_executable)
+    await write_uploaded_file(data_path)
+    await write_uploaded_file(initial_parameters_path)
 
     data_filename = data_path.filename
     initial_parameters_filename = initial_parameters_path.filename
     output_path = "api_predictions.csv"
     predictions = run_predictions(
-        model_path=model_file,
+        model_path=model_executable,
         data_path=data_filename,
         initial_parameters=initial_parameters_filename,
         output_path=output_path,
     )
 
-    Path(str(data_filename)).unlink(missing_ok=True)
-    Path(str(initial_parameters_filename)).unlink(missing_ok=True)
+    _delete_uploaded_files(data_filename, initial_parameters_filename)
 
     return predictions.to_dict(orient="records")
 
@@ -76,7 +74,12 @@ async def select_model(model_file):
     build_model(stan_file)
 
 
-async def write_internal_file(data_path):
+async def write_uploaded_file(data_path):
     content = await data_path.read()
     with open(data_path.filename, "wb") as f:
         f.write(content)
+
+
+def _delete_uploaded_files(data_filename, initial_parameters_filename):
+    Path(str(data_filename)).unlink(missing_ok=True)
+    Path(str(initial_parameters_filename)).unlink(missing_ok=True)
