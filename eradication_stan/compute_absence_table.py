@@ -64,7 +64,10 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
 
 
 def compute_absence_row(traps_effort_captures_df):
-    posterior = compute_posterior_distribution(traps_effort_captures_df)
+    initial_parameters_filename = "tests/data/init.json"
+    posterior = xxcompute_posterior_distribution(
+        traps_effort_captures_df, initial_parameters_filename
+    )
     population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
     population_size_percentile_95 = posterior[population_size_columns[-1]].quantile(0.95)
     extinct_probability = sum(posterior["is_extinct"]) / len(posterior)
