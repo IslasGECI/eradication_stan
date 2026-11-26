@@ -5,7 +5,7 @@ from eradication_stan.compute_absence_table import compute_posterior_distributio
 
 def test_compute_posterior_distribution():
     traps_effort_captures_df = pd.read_csv(
-        "tests/data/esfuerzos_capturas_mensuales_gatos_socorro.csv"
+        "tests/data/esfuerzo_capturas_mensuales_gatos_socorro.csv"
     )
     obtained = compute_posterior_distribution(traps_effort_captures_df)
     expected_rows = 1000
