@@ -102,12 +102,14 @@ def extract_population_size_columns(df):
 
 
 def compute_posterior_distribution(traps_effort_captures_df, initial_parameters_filename):
-    effort_captures_dict = transform_effort_captures_to_dict(traps_effort_captures_df)
+    effort_captures_dict = transform_effort_captures_to_dict(
+        traps_effort_captures_df, effort="traps_effort", captures="captures"
+    )
     internal_json_path = "internal_effort_captures_to_stan.json"
     write_json(effort_captures_dict, internal_json_path)
 
     output_path = "internal_distribution.csv"
-    model_file = "cat_eradication"
+    model_file = "cat_eradication_traps"
 
     stan_file = f"/workdir/{model_file}.stan"
     build_model(stan_file)

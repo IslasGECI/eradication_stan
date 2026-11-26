@@ -3,10 +3,14 @@ data {
   array[T] int<lower=0> captures;
   vector<lower=1>[T] traps_effort;
 }
+transformed data {
+  real min_N = 1e-6;      // Minimum allowed population size
+  real min_effort = 2000; // Minimum allowed effort
+}
 parameters {
-  real<lower=70> N0;              // Tamaño inicial de la población
-  real<lower=5e-2, upper=1> r;    // Tasa de crecimieno natural
-  real<lower=1e-7, upper=1e-4> traps_q; // Capturabilidad
+  real<lower=70> N0;                    // Initial population size
+  real<lower=5e-2, upper=1> r;          // Natural growth rate
+  real<lower=1e-7, upper=1e-4> traps_q; // Catchability
 }
 transformed parameters {
   vector<lower=1e-6>[T] N;
@@ -14,7 +18,29 @@ transformed parameters {
 
   N[1] = N0;
   for (t in 1 : (T - 1)) {
-    N[t + 1] = fmax(1e-6, N[t] * exp(r) - captures[t]);
+
+    N[t + 1] = N[t] * exp(r) - captures[t];
+
+    // If two consecutive periods have no captures and the next population
+    // falls below one, with effort above the minimum, treat the population
+    // as extinct.
+    if (t > 1
+        && captures[t - 1] < 1
+        && captures[t]     < 1
+        && traps_effort[t - 1] > min_effort
+        && traps_effort[t]     > min_effort
+        && N[t + 1] < 1) {
+      N[t + 1] = min_N;
+    }
+    // With too little effort, zero captures do not prove absence: keep at
+    // least one individual alive.
+    if (traps_effort[t] <= min_effort) {
+      N[t + 1] = fmax(N[t + 1] + 1, min_N + 1);
+    }
+    // Never let the population fall below the numerical floor.
+    if (N[t + 1] < min_N) {
+      N[t + 1] = min_N;
+    }
   }
 
   for (t in 1 : T) {
