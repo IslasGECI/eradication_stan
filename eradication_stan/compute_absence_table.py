@@ -38,7 +38,9 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
             "extinct_probability",
         ]
     )
-    first_absence_row = compute_absence_row(traps_effort_captures_df_copy)
+    first_absence_row = xxcompute_absence_row(
+        traps_effort_captures_df_copy, initial_parameters_filename
+    )
     effort = traps_effort_captures_df_copy["Esfuerzo"].quantile(0.75)
     traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(traps_effort_captures_df_copy["Fecha"])
     next_month = traps_effort_captures_df_copy["Fecha"].max() + pd.DateOffset(months=1)
@@ -50,7 +52,7 @@ def compute_absence_table(traps_effort_captures_df, months_to_iterate):
     traps_effort_captures_df_copy.loc[len(traps_effort_captures_df_copy)] = new_row
 
     for _ in range(months_to_iterate):
-        new_row = compute_absence_row(traps_effort_captures_df_copy)
+        new_row = xxcompute_absence_row(traps_effort_captures_df_copy, initial_parameters_filename)
         table.loc[len(table)] = new_row
 
         traps_effort_captures_df_copy["Fecha"] = pd.to_datetime(
