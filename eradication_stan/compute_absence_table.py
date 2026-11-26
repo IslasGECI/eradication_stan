@@ -73,7 +73,7 @@ def compute_absence_row(traps_effort_captures_df, initial_parameters_filename):
     posterior = compute_posterior_distribution(
         traps_effort_captures_df, initial_parameters_filename
     )
-    population_size_columns = [column for column in posterior.columns if column.startswith("N.")]
+    population_size_columns = extract_population_size_columns(posterior)
     population_size_percentile_95 = posterior[population_size_columns[-1]].quantile(0.95)
     extinct_probability = sum(posterior["is_extinct"]) / len(posterior)
     new_row = {
@@ -84,6 +84,10 @@ def compute_absence_row(traps_effort_captures_df, initial_parameters_filename):
         "extinct_probability": extinct_probability,
     }
     return new_row
+
+
+def extract_population_size_columns(df):
+    return [column for column in df.columns if column.startswith("N.")]
 
 
 def compute_posterior_distribution(traps_effort_captures_df, initial_parameters_filename):
